@@ -1,6 +1,8 @@
 parameters:
     kuborgh_measure.service.contenttypeload.class: Kuborgh\Bundle\MeasureBundle\Services\LoadContentType\Manager
     kuborgh_measure.measurer.contentservice.class: Kuborgh\Bundle\MeasureBundle\Services\LoadContentType\Measurer\ContentServiceMeasurer
+    kuborgh_measure.measurer.locationcontent.class: Kuborgh\Bundle\MeasureBundle\Services\LoadContentType\Measurer\LocationContentServiceMeasurer
+    kuborgh_measure.measurer.searchcontent.class: Kuborgh\Bundle\MeasureBundle\Services\LoadContentType\Measurer\SearchContent
 
 services:
     kuborgh_measure.service.contenttypeload:
@@ -9,5 +11,13 @@ services:
             - [setApiRepository, [@ezpublish.api.repository]]
     kuborgh_measure.measurer.contentservice:
         class: %kuborgh_measure.measurer.contentservice.class%
+        calls:
+            - [setApiRepository, [@ezpublish.api.repository]]
+    kuborgh_measure.measurer.locationcontent:
+        class: %kuborgh_measure.measurer.locationcontent.class%
+        calls:
+            - [setApiRepository, [@ezpublish.api.repository]]
+    kuborgh_measure.measurer.searchcontent:
+        class: %kuborgh_measure.measurer.searchcontent.class%
         calls:
             - [setApiRepository, [@ezpublish.api.repository]]
