@@ -1,0 +1,13 @@
+parameters:
+    kuborgh_measure.service.contenttypeload.class: Kuborgh\Bundle\MeasureBundle\Services\LoadContentType\Manager
+    kuborgh_measure.measurer.contentservice.class: Kuborgh\Bundle\MeasureBundle\Services\LoadContentType\Measurer\ContentServiceMeasurer
+
+services:
+    kuborgh_measure.service.contenttypeload:
+        class: %kuborgh_measure.service.contenttypeload.class%
+        calls:
+            - [setApiRepository, [@ezpublish.api.repository]]
+    kuborgh_measure.measurer.contentservice:
+        class: %kuborgh_measure.measurer.contentservice.class%
+        calls:
+            - [setApiRepository, [@ezpublish.api.repository]]
