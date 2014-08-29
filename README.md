@@ -93,7 +93,7 @@ kuborgh_measure:
 Build your own measurer
 -----------------------
 
-All Measurers need to implement the ```MeasurerInterface``` interface and available as a service.
+All Measurers need to implement the ```MeasurerInterface``` interface and available as a service.<br>
 You can use the ```AbstractMeasurer``` as a basis to start from.
 
 ```
@@ -127,3 +127,24 @@ class MyMeasurer extends AbstractMeasurer
 	}
 }
 ```
+
+Add you measurer as a service.<br>
+In your bundles service.yml
+```
+parameters:
+    mybundle.measurer.mycustom_meaasurer.class: Your\Bundle\AppBundle\Services\Measurer\MyMeasurer
+
+services:
+	mybundle.measurer.mycustom_meaasurer:
+		class: %mybundle.measurer.mycustom_meaasurer.class%
+```
+
+Add it to the configuration
+```
+kuborgh_measure:
+    content_type_measurer:
+    	mycustom:
+			service: 'mybundle.measurer.mycustom_meaasurer'
+```
+
+Now your custom measurer will be used if you run the command as described in the usage section!
