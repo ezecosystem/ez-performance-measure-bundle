@@ -48,7 +48,7 @@ class ContentServiceMeasurer extends AbstractMeasurer {
     }
 
     /**
-     * Get a new for the result
+     * Get a name for the result
      *
      * @return string
      */
