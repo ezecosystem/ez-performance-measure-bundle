@@ -12,25 +12,22 @@ In the main directory of your eZ publish project :
 git clone https://github.com/kuborgh/ez-performance-measure-bundle.git src/Kuborgh/Bundle/MeasureBundle
 ```
 
-Then you can add the Bundle to your EzPublishKernel
+Then you can add the Bundle to your ezpublish/EzPublishKernel.php
 ```
 public function registerBundles()
     {
-        $bundles = array(
-            new FrameworkBundle(),
-            new SecurityBundle(),
-            ...
-            new Kuborgh\Bundle\MeasureBundle\KuborghMeasureBundle(),
-        );
         ...
+        $bundles[] = new \Kuborgh\Bundle\MeasureBundle\KuborghMeasureBundle();
+
+        return $bundles;
 ```
 
-Now you can configure the measurements in your config.yml
+Now you can configure the measurements in your ezpublish/config/config.yml
 ```
 kuborgh_measure:
     content_type_measurer:
         measurer1:
-            service: 'kuborgh_measure.measurer.contentservice'
+            service: "kuborgh_measure.measurer.contentservice"
 ```
 
 Usage
