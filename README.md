@@ -41,19 +41,20 @@ Arguments:
  ctype                 eZ Content Type
 
 Options:
- --iterations (-iter)  Amount of content objects to load and measure (default: 100)
- --help (-h)           Display this help message.
- --quiet (-q)          Do not output any message.
- --verbose (-v|vv|vvv) Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
- --version (-V)        Display this application version.
- --ansi                Force ANSI output.
- --no-ansi             Disable ANSI output.
- --no-interaction (-n) Do not ask any interactive question.
- --shell (-s)          Launch the shell.
- --process-isolation   Launch commands from shell as a separate process.
- --env (-e)            The Environment name. (default: "dev")
- --no-debug            Switches off debug mode.
- --siteaccess          SiteAccess to use for operations. If not provided, default siteaccess will be used
+ --iterations (-iter)   Amount of content objects to load and measure (default: 100)
+ --show_min_max (-mm)   Show min / max values addition to avg value (default: 0)
+ --help (-h)            Display this help message.
+ --quiet (-q)           Do not output any message.
+ --verbose (-v|vv|vvv)  Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+ --version (-V)         Display this application version.
+ --ansi                 Force ANSI output.
+ --no-ansi              Disable ANSI output.
+ --no-interaction (-n)  Do not ask any interactive question.
+ --shell (-s)           Launch the shell.
+ --process-isolation    Launch commands from shell as a separate process.
+ --env (-e)             The Environment name. (default: "dev")
+ --no-debug             Switches off debug mode.
+ --siteaccess           SiteAccess to use for operations. If not provided, default siteaccess will be used
 
 ```
 
@@ -76,6 +77,7 @@ The following measurer services are provided :
   Use SearchService::findContent
 
 So if you want to use every measurer listed abvove you can use the following configuration:
+
 ```
 kuborgh_measure:
     content_type_measurer:

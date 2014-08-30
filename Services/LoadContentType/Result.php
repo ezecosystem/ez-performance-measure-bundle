@@ -40,6 +40,27 @@ class Result {
     private $avg;
 
     /**
+     * Minimum load time percentage
+     *
+     * @var float
+     */
+    private $minPercentage;
+
+    /**
+     * Maximum load time percentage
+     *
+     * @var float
+     */
+    private $maxPercentage;
+
+    /**
+     * Average load time percentage
+     *
+     * @var float
+     */
+    private $avgPercentage;
+
+    /**
      * Iterations performed
      *
      * @var int
@@ -62,11 +83,27 @@ class Result {
     }
 
     /**
+     * @param float $avgPercentage
+     */
+    public function setAvgPercentage($avgPercentage)
+    {
+        $this->avgPercentage = $avgPercentage;
+    }
+
+    /**
      * @return float
      */
     public function getAvg()
     {
         return $this->avg;
+    }
+
+    /**
+     * @return float
+     */
+    public function getAvgPercentage()
+    {
+        return $this->avgPercentage;
     }
 
     /**
@@ -94,11 +131,27 @@ class Result {
     }
 
     /**
+     * @param float $maxPercentage
+     */
+    public function setMaxPercentage($maxPercentage)
+    {
+        $this->maxPercentage = $maxPercentage;
+    }
+
+    /**
      * @return float
      */
     public function getMax()
     {
         return $this->max;
+    }
+
+    /**
+     * @return float
+     */
+    public function getMaxPercentage()
+    {
+        return $this->maxPercentage;
     }
 
     /**
@@ -110,11 +163,27 @@ class Result {
     }
 
     /**
+     * @param float $minPercentage
+     */
+    public function setMinPercentage($minPercentage)
+    {
+        $this->minPercentage = $minPercentage;
+    }
+
+    /**
      * @return float
      */
     public function getMin()
     {
         return $this->min;
+    }
+
+    /**
+     * @return float
+     */
+    public function getMinPercentage()
+    {
+        return $this->minPercentage;
     }
 
     /**

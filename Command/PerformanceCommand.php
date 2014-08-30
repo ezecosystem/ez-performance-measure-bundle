@@ -22,6 +22,7 @@ class PerformanceCommand extends ContainerAwareCommand {
 
     const ARGUMENT_CONTENT_TYPE = 'ctype';
     const OPTION_ITERATIONS = 'iterations';
+    const OUTPUT_OPTIONS = 'show_min_max';
 
     /**
      * Configure command
@@ -32,6 +33,7 @@ class PerformanceCommand extends ContainerAwareCommand {
         $this->setDescription('Execute performance tests for the given content type and print result.');
         $this->addArgument(self::ARGUMENT_CONTENT_TYPE, null, 'eZ Content Type');
         $this->addOption(self::OPTION_ITERATIONS, 'iter', InputOption::VALUE_OPTIONAL, 'Amount of content objects to load and measure', 100);
+        $this->addOption(self::OUTPUT_OPTIONS, 'minmax', InputOption::VALUE_OPTIONAL, 'Should min / max values be shown', 0);
     }
 
     /**
@@ -46,6 +48,7 @@ class PerformanceCommand extends ContainerAwareCommand {
     {
         $type = $input->getArgument(self::ARGUMENT_CONTENT_TYPE);
         $iterations = $input->getOption(self::OPTION_ITERATIONS);
+        $show_min_max = $input->getOption(self::OUTPUT_OPTIONS);
 
         if(!$type) {
             $output->writeln('No Content type given. Abort.');
@@ -62,10 +65,34 @@ class PerformanceCommand extends ContainerAwareCommand {
         $output->writeln(sprintf("Running max. %d tests for %s with measurers %s\n...", $iterations, $type, implode(', ', $measurerNames)));
         $resultSet = $manager->run($type, $iterations);
 
-        $output->write("\n<info>Results</info>\n");
+        $output->write("\n<info>Results</info>\n\n");
 
+        $output->writeln(sprintf("Iterations:\t%d", $iterations));
+
+        // get maximum values for min/max/avg
+        $minimumArray = array("min"=>999999, "max"=>999999, "avg"=>99999999);
         foreach($resultSet as $result) {
-            $this->printResult($result, $output);
+            $currentMin = $result->getMin();
+            $currentMax = $result->getMax();
+            $currentAvg = $result->getAvg();
+
+            // set the minimum to the lowest minimum value
+            $minimumArray['min'] = min($currentMin, $minimumArray['min']);
+            $minimumArray['max'] = min($currentMax, $minimumArray['max']);
+            $minimumArray['avg'] = min($currentAvg, $minimumArray['avg']);
+        }
+
+        // set average to each
+        foreach($resultSet as $result) {
+            $result->setMinPercentage(round($result->getMin()/$minimumArray['min']*100,2));
+            $result->setMaxPercentage(round($result->getMax()/$minimumArray['max']*100,2));
+            $result->setAvgPercentage(round($result->getAvg()/$minimumArray['avg']*100,2));
+        }
+
+
+        // output
+        foreach($resultSet as $result) {
+            $this->printResult($result, $output, $show_min_max);
         }
     }
 
@@ -75,13 +102,15 @@ class PerformanceCommand extends ContainerAwareCommand {
      * @param Result $result
      * @param OutputInterface $output
      */
-    protected function printResult(Result $result, OutputInterface $output)
+    protected function printResult(Result $result, OutputInterface $output, $show_min_max=false)
     {
         $output->writeln(sprintf("\nResult for:\t%s", $result->getReference()));
-        $output->writeln(sprintf("Iterations:\t%d", $result->getIterations()));
-        $output->writeln(sprintf("Min. time:\t%f", $result->getMin()));
-        $output->writeln(sprintf("Max. time:\t%f", $result->getMax()));
-        $output->writeln(sprintf("Avg. time:\t%f", $result->getAvg()));
+//        $output->writeln(sprintf("Iterations:\t%d", $result->getIterations()));
+        if ($show_min_max) {
+            $output->writeln(sprintf("Min. time:\t%01.3f ms\t%01.0f%%", $result->getMin()*1000, $result->getMinPercentage()));
+            $output->writeln(sprintf("Max. time:\t%01.3f ms\t%01.0f%%", $result->getMax()*1000, $result->getMaxPercentage()));
+        }
+        $output->writeln(sprintf("Avg. time:\t%01.3f ms\t%01.0f%%", $result->getAvg()*1000, $result->getAvgPercentage()));
     }
 
     /**
