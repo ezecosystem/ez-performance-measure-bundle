@@ -13,8 +13,9 @@ namespace Kuborgh\Bundle\MeasureBundle\Services\LoadContentType\Measurer;
 use eZ\Publish\API\Repository\Repository as eZRepository;
 use eZ\Publish\API\Repository\Values\ValueObject;
 use Kuborgh\Bundle\MeasureBundle\Services\LoadContentType\AbstractMeasurer;
+use eZ\Publish\API\Repository\Values\Content\Query;
 
-class ContentServiceMeasurer extends AbstractMeasurer {
+class SearchContentMeasurer extends AbstractMeasurer {
 
     /**
      * @var eZRepository
@@ -44,17 +45,20 @@ class ContentServiceMeasurer extends AbstractMeasurer {
      */
     private function load(ValueObject $valueObject)
     {
-        $this->getApiRepository()->getContentService()->loadContent($valueObject->id);
+        $query = new Query();
+        $query->criterion = new Query\Criterion\ContentId($valueObject->id);
+
+        $this->getApiRepository()->getSearchService()->findContent($query);
     }
 
     /**
-     * Get a name for the result
+     * Get a new for the result
      *
      * @return string
      */
     public function getName()
     {
-        return "ContentService::loadContent (ID -> Object)";
+        return "SearchService::findContent (Query -> Objects)";
     }
 
     /**

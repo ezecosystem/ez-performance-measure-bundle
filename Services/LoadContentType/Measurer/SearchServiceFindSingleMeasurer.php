@@ -15,7 +15,7 @@ use eZ\Publish\API\Repository\Values\ValueObject;
 use Kuborgh\Bundle\MeasureBundle\Services\LoadContentType\AbstractMeasurer;
 use eZ\Publish\API\Repository\Values\Content\Query;
 
-class SearchContent extends AbstractMeasurer {
+class SearchServiceFindSingleMeasurer extends AbstractMeasurer {
 
     /**
      * @var eZRepository
@@ -48,17 +48,17 @@ class SearchContent extends AbstractMeasurer {
         $query = new Query();
         $query->criterion = new Query\Criterion\ContentId($valueObject->id);
 
-        $this->getApiRepository()->getSearchService()->findContent($query);
+        $this->getApiRepository()->getSearchService()->findSingle($query->criterion);
     }
 
     /**
-     * Get a new for the result
+     * Get a name for the result
      *
      * @return string
      */
     public function getName()
     {
-        return "SearchService::findContent";
+        return "SearchService::findSingle (ID -> Object)";
     }
 
     /**

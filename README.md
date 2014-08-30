@@ -73,8 +73,11 @@ The following measurer services are provided :
   Measure the time to load a content object by if via ContentService::loadContent
 * LocationContentServiceMeasurer (kuborgh_measure.measurer.locationconten)<br>
   First load location via SearchService::findLocations to retrieve the content id and load the content object via ContentService::loadContent
+  Use combined SearchService::findLocations & ContentService::findContent (Input: Search, Output: Objects)
 * SearchContent (kuborgh_measure.measurer.searchcontent)<br>
-  Use SearchService::findContent
+  Use SearchService::findContent (Input: Search, Output: Objects)
+
+(SearchService::findSingle (Search, Object))
 
 So if you want to use every measurer listed abvove you can use the following configuration:
 

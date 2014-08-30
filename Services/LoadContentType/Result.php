@@ -201,4 +201,4 @@ class Result {
     {
         return $this->reference;
     }
-} 
+}

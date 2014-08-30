@@ -67,7 +67,7 @@ class LocationContentServiceMeasurer extends AbstractMeasurer {
      */
     public function getName()
     {
-        return "SearchService::findLocation() => ContentService::loadContent";
+        return "SearchService::findLocation() => ContentService::loadContent (Query -> IDs -> Objects)";
     }
 
     /**

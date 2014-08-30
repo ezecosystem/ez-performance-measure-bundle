@@ -26,9 +26,21 @@ class KuborghMeasureExtension extends Extension
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
 
-        if(count($config['content_type_measurer'])) {
-            $measureManager = $container->findDefinition('kuborgh_measure.service.contenttypeload');
-            foreach($config['content_type_measurer'] as $processor) {
+        // add the measurement classes to the mananger
+
+        // List
+        if(count($config['content_type_list_measurer'])) {
+            $measureManager = $container->findDefinition('kuborgh_measure.listservice.contenttypeload');
+            foreach($config['content_type_list_measurer'] as $processor) {
+                $serviceId = $processor['service'];
+                $measureManager->addMethodCall('addMeasurer', array(new Reference($serviceId)));
+            }
+        }
+
+        // Single
+        if(count($config['content_type_single_measurer'])) {
+            $measureManager = $container->findDefinition('kuborgh_measure.singleservice.contenttypeload');
+            foreach($config['content_type_single_measurer'] as $processor) {
                 $serviceId = $processor['service'];
                 $measureManager->addMethodCall('addMeasurer', array(new Reference($serviceId)));
             }

@@ -15,7 +15,7 @@ use eZ\Publish\API\Repository\Values\Content\Query;
 use eZ\Publish\Core\Repository\SearchService;
 use eZ\Publish\API\Repository\Values\ValueObject;
 
-class Manager {
+class SingleManager {
 
     /**
      * @var eZRepository

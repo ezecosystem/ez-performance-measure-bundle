@@ -18,7 +18,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class PerformanceCommand extends ContainerAwareCommand {
+class PerformanceSingleCommand extends ContainerAwareCommand {
 
     const ARGUMENT_CONTENT_TYPE = 'ctype';
     const OPTION_ITERATIONS = 'iterations';
@@ -29,7 +29,7 @@ class PerformanceCommand extends ContainerAwareCommand {
      */
     protected function configure()
     {
-        $this->setName('kb:measure:performance');
+        $this->setName('kb:measure:performance_single');
         $this->setDescription('Execute performance tests for the given content type and print result.');
         $this->addArgument(self::ARGUMENT_CONTENT_TYPE, null, 'eZ Content Type');
         $this->addOption(self::OPTION_ITERATIONS, 'iter', InputOption::VALUE_OPTIONAL, 'Amount of content objects to load and measure', 100);
@@ -105,7 +105,6 @@ class PerformanceCommand extends ContainerAwareCommand {
     protected function printResult(Result $result, OutputInterface $output, $show_min_max=false)
     {
         $output->writeln(sprintf("\nResult for:\t%s", $result->getReference()));
-//        $output->writeln(sprintf("Iterations:\t%d", $result->getIterations()));
         if ($show_min_max) {
             $output->writeln(sprintf("Min. time:\t%01.3f ms\t%01.0f%%", $result->getMin()*1000, $result->getMinPercentage()));
             $output->writeln(sprintf("Max. time:\t%01.3f ms\t%01.0f%%", $result->getMax()*1000, $result->getMaxPercentage()));
@@ -118,6 +117,6 @@ class PerformanceCommand extends ContainerAwareCommand {
      */
     protected function getMeasureManager()
     {
-        return $this->getContainer()->get('kuborgh_measure.service.contenttypeload');
+        return $this->getContainer()->get('kuborgh_measure.singleservice.contenttypeload');
     }
 } 

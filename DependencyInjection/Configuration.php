@@ -21,13 +21,24 @@ class Configuration implements ConfigurationInterface
         $rootNode = $treeBuilder->root('kuborgh_measure');
 
         $rootNode->children()
-            ->arrayNode('content_type_measurer')
+            ->arrayNode('content_type_list_measurer')
                 ->useAttributeAsKey('name')
                 ->prototype('array')
                 ->children()
                     ->scalarNode('service')
-                    ->isRequired()
-                    ->cannotBeEmpty()
+                        ->isRequired()
+                        ->cannotBeEmpty()
+                    ->end()
+                ->end()
+            ->end();
+        $rootNode->children()
+            ->arrayNode('content_type_single_measurer')
+                ->useAttributeAsKey('name')
+                ->prototype('array')
+                ->children()
+                    ->scalarNode('service')
+                        ->isRequired()
+                        ->cannotBeEmpty()
                     ->end()
                 ->end()
             ->end();
