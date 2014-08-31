@@ -50,10 +50,14 @@ class AgeContentCommand extends ContainerAwareCommand {
         $this->getEzRepository()->setCurrentUser($this->getEzRepository()->getUserService()->loadUserByLogin('admin'));
 
         // work
+        $output->writeln("Loading...");
         $contents = $this->loadContentObjects($contentTypeName);
+        $output->writeln(sprintf("Creating %d versions for each %s and go :", $versions, $contentTypeName));
         foreach($contents as $cnt) {
             $this->age($cnt, $versions);
+            $output->write('.');
         }
+        $output->writeln('Done');
     }
 
     /**
