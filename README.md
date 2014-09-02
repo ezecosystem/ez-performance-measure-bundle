@@ -13,21 +13,31 @@ git clone https://github.com/kuborgh/ez-performance-measure-bundle.git src/Kubor
 ```
 
 Then you can add the Bundle to your ezpublish/EzPublishKernel.php
-```
-public function registerBundles()
-    {
+
+	public function registerBundles()
+	{
         ...
         $bundles[] = new \Kuborgh\Bundle\MeasureBundle\KuborghMeasureBundle();
 
         return $bundles;
-```
 
 Now you can configure the measurements in your ezpublish/config/config.yml
+
 ```
-kuborgh_measure:
-    content_type_measurer:
-        measurer1:
-            service: "kuborgh_measure.measurer.contentservice"
+	kuborgh_measure:
+    	content_type_list_measurer:
+        	measurer1:
+            	service: 'kuborgh_measure.measurer.locationcontent'
+	        measurer2:
+    	        service: 'kuborgh_measure.measurer.searchcontent'
+	    content_type_single_measurer:
+    	    measurer1:
+        	    service: 'kuborgh_measure.measurer.contentservice'
+	        measurer2:
+    	        service: 'kuborgh_measure.measurer.searchservicefindsingle'
+        	measurer3:
+            	service: 'kuborgh_measure.measurer.searchservicefindcontentassingle'
+
 ```
 
 Usage
@@ -35,13 +45,18 @@ Usage
 
 ```
 Usage:
- kb:measure:performance [-iter|--iterations[="..."]] [ctype]
+ kb:measure:performance_single [-iter|--iterations[="..."]] [ctype]
+ kb:measure:performance_list [-iter|--iterations[="..."]] [ctype]
+ kb:measure:age [-ver|--versions[="..."]] [ctype]
+ kb:measure:translate [ctype] [lang]
 
 Arguments:
  ctype                 eZ Content Type
+ lang                  eZ Langugage Code
 
 Options:
  --iterations (-iter)   Amount of content objects to load and measure (default: 100)
+ --versions	(-ver)		Amount of versions to add
  --show_min_max (-mm)   Show min / max values addition to avg value (default: 0)
  --help (-h)            Display this help message.
  --quiet (-q)           Do not output any message.
@@ -58,9 +73,9 @@ Options:
 
 ```
 
-Example to make 10 tests with the "article" content type which is provided in the ez demo page.
+Example to make 10 tests on lists with the "article" content type which is provided in the ez demo page.
 ```
-php ezpublish/console kb:measure:performance --iterations 10 article
+php ezpublish/console kb:measure:performance_list --iterations 10 article
 ```
 
 

@@ -18,7 +18,7 @@ use eZ\Publish\API\Repository\Values\Content\Query;
 
 class AgeContentCommand extends ContainerAwareCommand {
 
-    const ARGUMENT_CONTENT_TYPE = 'article';
+    const ARGUMENT_CONTENT_TYPE = 'content-type';
     const OPTION_VERSIONS = 'versions';
 
     /**
@@ -29,7 +29,7 @@ class AgeContentCommand extends ContainerAwareCommand {
         $this->setName('kb:measure:age');
         $this->setDescription('All content objects of the given content type will be saved to simulate natural aging process.');
         $this->addArgument(self::ARGUMENT_CONTENT_TYPE, null, 'eZ Content Type');
-        $this->addOption(self::OPTION_VERSIONS, null, InputOption::VALUE_OPTIONAL, 'Amount of versions to create', 100);
+        $this->addOption(self::OPTION_VERSIONS, 'ver', InputOption::VALUE_OPTIONAL, 'Amount of versions to create', 10);
     }
 
     /**
@@ -129,4 +129,4 @@ class AgeContentCommand extends ContainerAwareCommand {
     {
         return $this->getEzRepository()->getSearchService();
     }
-} 
+}
